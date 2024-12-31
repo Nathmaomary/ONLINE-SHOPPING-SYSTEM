@@ -201,3 +201,44 @@ void System::checkout() const {
     std::cout << "Total: $" << cart.calculateTotal() << std::endl;
     std::cout << "Thank you for your purchase, " << loggedInUser->getUsername() << "!\n";
 }
+
+// main.cpp
+#include <iostream>
+#include <vector>
+#include "System.h"
+
+int main() {
+    System system;
+
+    // Add some products to the system
+    system.addProductToCart(1); // You would add products to the list first (as shown in System)
+
+    // User Registration
+    std::string username, password;
+    std::cout << "Enter username to register: ";
+    std::cin >> username;
+    std::cout << "Enter password to register: ";
+    std::cin >> password;
+
+    system.registerUser(username, password);
+
+    // User Login
+    std::cout << "Enter username to login: ";
+    std::cin >> username;
+    std::cout << "Enter password to login: ";
+    std::cin >> password;
+
+    if (system.loginUser(username, password)) {
+        system.displayProducts();
+
+        int productId;
+        std::cout << "Enter product ID to add to cart: ";
+        std::cin >> productId;
+
+        system.addProductToCart(productId);
+        system.checkout();
+    }
+
+    return 0;
+}
+

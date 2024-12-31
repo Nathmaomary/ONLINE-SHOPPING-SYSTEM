@@ -241,4 +241,19 @@ int main() {
 
     return 0;
 }
+Enter username to register: john_doe
+Enter password to register: password123
+User john_doe registered successfully!
+Enter username to login: john_doe
+Enter password to login: password123
+Login successful!
+Available Products:
+ID: 1, Name: Laptop, Price: $1000
+ID: 2, Name: Phone, Price: $500
+Enter product ID to add to cart: 1
+Product added to cart!
+Products in Cart: 
+ID: 1, Name: Laptop, Price: $1000
+Total: $1000
+Thank you for your purchase, john_doe!
 

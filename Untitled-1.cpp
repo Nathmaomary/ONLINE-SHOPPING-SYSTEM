@@ -124,3 +124,80 @@ void ShoppingCart::displayCart() const {
                   << ", Price: $" << product.getPrice() << std::endl;
     }
 }
+
+// System.h
+#ifndef SYSTEM_H
+#define SYSTEM_H
+
+#include <vector>
+#include "User.h"
+#include "Product.h"
+#include "ShoppingCart.h"
+
+class System {
+public:
+    void registerUser(const std::string& username, const std::string& password);
+    bool loginUser(const std::string& username, const std::string& password);
+    void addProductToCart(int productId);
+    void displayProducts() const;
+    void checkout() const;
+
+private:
+    std::vector<User> users;
+    std::vector<Product> products;
+    ShoppingCart cart;
+    User* loggedInUser = nullptr;
+};
+
+#endif
+
+// System.cpp
+#include "System.h"
+#include <iostream>
+
+void System::registerUser(const std::string& username, const std::string& password) {
+    users.push_back(User(username, password));
+    std::cout << "User " << username << " registered successfully!\n";
+}
+
+bool System::loginUser(const std::string& username, const std::string& password) {
+    for (auto& user : users) {
+        if (user.getUsername() == username && user.authenticate(password)) {
+            loggedInUser = &user;
+            std::cout << "Login successful!\n";
+            return true;
+        }
+    }
+    std::cout << "Invalid username or password.\n";
+    return false;
+}
+
+void System::addProductToCart(int productId) {
+    for (const auto& product : products) {
+        if (product.getId() == productId) {
+            cart.addProduct(product);
+            std::cout << "Product added to cart!\n";
+            return;
+        }
+    }
+    std::cout << "Product not found.\n";
+}
+
+void System::displayProducts() const {
+    std::cout << "Available Products:\n";
+    for (const auto& product : products) {
+        std::cout << "ID: " << product.getId() << ", Name: " << product.getName() 
+                  << ", Price: $" << product.getPrice() << std::endl;
+    }
+}
+
+void System::checkout() const {
+    if (!loggedInUser) {
+        std::cout << "You must log in to checkout.\n";
+        return;
+    }
+
+    cart.displayCart();
+    std::cout << "Total: $" << cart.calculateTotal() << std::endl;
+    std::cout << "Thank you for your purchase, " << loggedInUser->getUsername() << "!\n";
+}
